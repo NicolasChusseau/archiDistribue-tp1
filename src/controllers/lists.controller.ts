@@ -30,3 +30,24 @@ export const createList = async function (
     await this.level.listsdb.put(newList.id, JSON.stringify(newList));
     reply.send(newList);
 }
+
+export const updateList = async function (
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
+    const listParam = request.params as {id: string};
+    const updatedList = request.body as List;
+    await this.level.listsdb.put(listParam.id, JSON.stringify(updatedList));
+    reply.send(updatedList);
+}
+
+export const deleteList = async function (
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
+    const listParam = request.params as {id: string};
+    await this.level.listsdb.del(listParam.id);
+    reply.send({message: "List deleted"});
+}
+
+
