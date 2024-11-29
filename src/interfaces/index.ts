@@ -4,9 +4,11 @@ export interface List {
     items?: Item[]
 }
 
+type ItemStatus = "todo" | "done";
+
 export interface Item {
     id: string;
     name: string;
-    status: "todo" | "done"
+    status: ItemStatus;
 }
 

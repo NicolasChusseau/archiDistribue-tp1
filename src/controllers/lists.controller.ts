@@ -1,12 +1,5 @@
 import {Item, List} from "../interfaces";
-import { FastifyRequest, FastifyReply } from "fastify";
-import * as repl from "node:repl";
-
-const staticLists: List[] = [
-    {id: "1", name: "List1"},
-    {id: "2", name: "List2"},
-    {id: "3", name: "List3"}
-]
+import {FastifyReply, FastifyRequest} from "fastify";
 
 export const listLists = async function (
     request: FastifyRequest,
@@ -16,7 +9,7 @@ export const listLists = async function (
     const listIter = this.level.listsdb.iterator();
 
     const result: List[] = [];
-    for await (const [key, value] of listIter) {
+    for await (const [, value] of listIter) {
         result.push(JSON.parse(value) as List);
     }
     reply.send(result);
@@ -57,7 +50,7 @@ export const createItem = async function (
 ) {
     const listParam = request.params as {id: string};
     const newItem = request.body as Item;
-    const list = await this.level.listsdb.get(listParam.id) as List;
+    const list = JSON.parse(await this.level.listsdb.get(listParam.id)) as List;
     if (!list.items) {
         list.items = [];
     }
@@ -66,4 +59,46 @@ export const createItem = async function (
     reply.send(newItem);
 }
 
+export const updateItem = async function (
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
+    const listParam = request.params as {id: string, itemId: string};
+    const updatedItem = request.body as Partial<Item>;
+    console.log("updatedItem", updatedItem)
+    const list = JSON.parse(await this.level.listsdb.get(listParam.id)) as List;
+    console.log("list", list)
+    if (!list.items) {
+        reply.status(404).send({message: "Item not found"});
+        return;
+    }
+    const itemIndex = list.items.findIndex(item => item.id === listParam.itemId);
+    const oldItem = list.items[itemIndex];
+    console.log("oldItem", oldItem)
+    let item1 = {
+        id: listParam.itemId,
+        name: updatedItem.name || oldItem.name,
+        status: updatedItem.status || oldItem.status
+    };
+    console.log("item1", item1)
+    list.items[itemIndex] = item1;
+    console.log("final list", list)
+    await this.level.listsdb.put(listParam.id, JSON.stringify(list));
+    reply.send(updatedItem);
+}
+
+export const deleteItem = async function (
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
+    const listParam = request.params as {id: string, itemId: string};
+    const list = JSON.parse(await this.level.listsdb.get(listParam.id)) as List;
+    if (!list.items) {
+        reply.status(404).send({message: "Item not found"});
+        return;
+    }
+    list.items = list.items.filter(item => item.id !== listParam.itemId);
+    await this.level.listsdb.put(listParam.id, JSON.stringify(list));
+    reply.send({message: "Item deleted"});
+}
 
