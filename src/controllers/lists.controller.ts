@@ -37,6 +37,7 @@ export const updateList = async function (
 ) {
     const listParam = request.params as {id: string};
     const updatedList = request.body as List;
+    updatedList.id = listParam.id;
     await this.level.listsdb.put(listParam.id, JSON.stringify(updatedList));
     reply.send(updatedList);
 }
