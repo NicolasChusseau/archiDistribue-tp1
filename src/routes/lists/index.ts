@@ -6,6 +6,8 @@ async function lists(fastify: FastifyInstance) {
     fastify.post("/", ListController.createList)
     fastify.put("/:id", ListController.updateList)
     fastify.delete("/:id", ListController.deleteList)
+
+    fastify.post("/:id/items", ListController.createItem)
 }
 
 export default lists;

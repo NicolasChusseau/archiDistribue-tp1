@@ -1,4 +1,4 @@
-import {List} from "../interfaces";
+import {Item, List} from "../interfaces";
 import { FastifyRequest, FastifyReply } from "fastify";
 import * as repl from "node:repl";
 
@@ -48,6 +48,21 @@ export const deleteList = async function (
     const listParam = request.params as {id: string};
     await this.level.listsdb.del(listParam.id);
     reply.send({message: "List deleted"});
+}
+
+export const createItem = async function (
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
+    const listParam = request.params as {id: string};
+    const newItem = request.body as Item;
+    const list = await this.level.listsdb.get(listParam.id) as List;
+    if (!list.items) {
+        list.items = [];
+    }
+    list.items.push(newItem);
+    await this.level.listsdb.put(listParam.id, JSON.stringify(list));
+    reply.send(newItem);
 }
 
 
