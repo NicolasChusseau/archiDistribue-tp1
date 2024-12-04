@@ -3,7 +3,7 @@ import * as UserController from "../../controllers/users.controller";
 import {userSchema, createUserSchema, itemSchema, updateUserSchema} from "../../schemas/users.schema";
 
 async function users(fastify: FastifyInstance) {
-    fastify.get("/", {
+    fastify.get("", {
         schema: {
             tags: ['users'],
             response: {
@@ -36,7 +36,7 @@ async function users(fastify: FastifyInstance) {
         },
     }, UserController.getUser);
 
-    fastify.post("/", {
+    fastify.post("", {
         schema: {
             tags: ['users'],
             body: createUserSchema,

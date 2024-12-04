@@ -10,7 +10,7 @@ import {
 } from "../../schemas/lists.schema";
 
 async function lists(fastify: FastifyInstance) {
-    fastify.get("/", {
+    fastify.get("", {
         schema: {
             tags: ['lists'],
             response: {
@@ -22,7 +22,7 @@ async function lists(fastify: FastifyInstance) {
         },
     }, ListController.listLists);
 
-    fastify.post("/", {
+    fastify.post("", {
         schema: {
             tags: ['lists'],
             body: createListSchema,
