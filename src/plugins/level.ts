@@ -6,4 +6,9 @@ export default fp<FastifyLeveldbOptions>(async (fastify, options) => {
         path: './db',
         name: "listsdb"
     })
+
+    fastify.register(level, {
+        path: './db2',
+        name: "usersdb"
+    })
 });
