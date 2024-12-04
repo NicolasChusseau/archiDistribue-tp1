@@ -18,7 +18,7 @@ export const createUserSchema = Type.Object({
 });
 
 export const updateUserSchema = Type.Object({
-    name: Type.String(),
+    user: Type.Partial(userSchema),
 });
 
 export const itemSchema = Type.Object({
