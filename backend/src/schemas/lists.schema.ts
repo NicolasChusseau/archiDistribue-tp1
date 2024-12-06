@@ -26,7 +26,7 @@ export const createListSchema = Type.Object({
 });
 
 export const updateListSchema = Type.Object({
-    list: Type.Partial(listSchema),
+    list: Type.Optional(listSchema),
 });
 
 export const createItemSchema = Type.Object({
@@ -36,5 +36,5 @@ export const createItemSchema = Type.Object({
 });
 
 export const updateItemSchema = Type.Object({
-    item: Type.Partial(itemSchema),
+    item: Type.Optional(itemSchema),
 });
