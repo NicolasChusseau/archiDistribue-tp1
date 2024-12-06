@@ -2,7 +2,8 @@
 logs
 *.log
 npm-debug.log*
-db
+/db
+/db2
 
 # Runtime data
 pids
