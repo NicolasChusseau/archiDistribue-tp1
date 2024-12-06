@@ -12,6 +12,7 @@ import {
 async function lists(fastify: FastifyInstance) {
     fastify.get("", {
         schema: {
+            summary: "List all lists",
             tags: ['lists'],
             response: {
                 200: {
@@ -24,6 +25,7 @@ async function lists(fastify: FastifyInstance) {
 
     fastify.post("", {
         schema: {
+            summary: "Create a new list",
             tags: ['lists'],
             body: createListSchema,
             response: {
@@ -34,6 +36,7 @@ async function lists(fastify: FastifyInstance) {
 
     fastify.put("/:id", {
         schema: {
+            summary: "Update a list",
             tags: ['lists'],
             params: {
                 type: "object",
@@ -50,6 +53,7 @@ async function lists(fastify: FastifyInstance) {
 
     fastify.delete("/:id", {
         schema: {
+            summary: "Delete a list",
             tags: ['lists'],
             params: {
                 type: "object",
@@ -70,6 +74,7 @@ async function lists(fastify: FastifyInstance) {
 
     fastify.post("/:id/items", {
         schema: {
+            summary: "Create a new item",
             tags: ['lists'],
             params: {
                 type: "object",
@@ -86,6 +91,7 @@ async function lists(fastify: FastifyInstance) {
 
     fastify.put("/:id/items/:itemId", {
         schema: {
+            summary: "Update an item",
             tags: ['lists'],
             params: {
                 type: "object",
@@ -103,6 +109,7 @@ async function lists(fastify: FastifyInstance) {
 
     fastify.delete("/:id/items/:itemId", {
         schema: {
+            summary: "Delete an item",
             tags: ['lists'],
             params: {
                 type: "object",

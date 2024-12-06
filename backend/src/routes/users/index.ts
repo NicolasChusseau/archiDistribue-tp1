@@ -5,6 +5,7 @@ import {userSchema, createUserSchema, itemSchema, updateUserSchema} from "../../
 async function users(fastify: FastifyInstance) {
     fastify.get("", {
         schema: {
+            summary: "List all users",
             tags: ['users'],
             response: {
                 200: {
@@ -17,6 +18,7 @@ async function users(fastify: FastifyInstance) {
 
     fastify.get("/:id", {
         schema: {
+            summary: "Get a user by ID",
             tags: ['users'],
             params: {
                 type: "object",
@@ -38,6 +40,7 @@ async function users(fastify: FastifyInstance) {
 
     fastify.post("", {
         schema: {
+            summary: "Create a new user",
             tags: ['users'],
             body: createUserSchema,
             response: {
@@ -48,6 +51,7 @@ async function users(fastify: FastifyInstance) {
 
     fastify.put("/:id", {
         schema: {
+            summary: "Update a user",
             tags: ['users'],
             params: {
                 type: "object",
@@ -70,6 +74,7 @@ async function users(fastify: FastifyInstance) {
 
     fastify.delete("/:id", {
         schema: {
+            summary: "Delete a user",
             tags: ['users'],
             params: {
                 type: "object",
@@ -96,6 +101,7 @@ async function users(fastify: FastifyInstance) {
 
     fastify.post("/:id/items", {
         schema: {
+            summary: "Assign an item to a user",
             tags: ['users'],
             params: {
                 type: "object",
