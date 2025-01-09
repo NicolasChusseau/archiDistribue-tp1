@@ -14,6 +14,17 @@ export const listLists = async function (request: FastifyRequest, reply: Fastify
     }
 };
 
+export const getListById = async function (request: FastifyRequest, reply: FastifyReply) {
+    const listParam = request.params as { id: string };
+
+    try {
+        const list = JSON.parse(await this.level.listsdb.get(listParam.id)) as List;
+        reply.send(list);
+    } catch (error) {
+        reply.status(404).send({ message: "List not found" });
+    }
+};
+
 export const createList = async function (request: FastifyRequest, reply: FastifyReply) {
     const newList: List = request.body as List;
 
@@ -27,7 +38,14 @@ export const createList = async function (request: FastifyRequest, reply: Fastif
 
 export const updateList = async function (request: FastifyRequest, reply: FastifyReply) {
     const listParam = request.params as { id: string };
-    const updatedList = request.body as List;
+    const changingParameters = request.body as Partial<List>;
+
+    const oldList = JSON.parse(await this.level.listsdb.get(listParam.id)) as List;
+
+    const updatedList = {
+        ...oldList,
+        ...changingParameters
+    }
 
     try {
         updatedList.id = listParam.id;
@@ -66,7 +84,6 @@ export const createItem = async function (
     await this.level.listsdb.put(listParam.id, JSON.stringify(list));
     reply.send(newItem);
 };
-
 
 export const updateItem = async function (
     request: FastifyRequest,

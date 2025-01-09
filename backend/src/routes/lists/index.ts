@@ -23,6 +23,29 @@ async function lists(fastify: FastifyInstance) {
         },
     }, ListController.listLists);
 
+    fastify.get("/:id", {
+        schema: {
+            summary: "Get a list by ID",
+            tags: ['lists'],
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" },
+                },
+                required: ["id"],
+            },
+            response: {
+                200: listSchema,
+                404: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" },
+                    },
+                },
+            },
+        },
+    }, ListController.getListById);
+
     fastify.post("", {
         schema: {
             summary: "Create a new list",
