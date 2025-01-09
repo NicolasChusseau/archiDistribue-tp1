@@ -18,7 +18,7 @@ export const createUserSchema = Type.Object({
 });
 
 export const updateUserSchema = Type.Object({
-    user: Type.Partial(userSchema),
+    user: Type.Optional(userSchema),
 });
 
 export const itemSchema = Type.Object({
