@@ -1,7 +1,0 @@
-services:
-  backend:
-    build:
-        context: .
-    image: todo_list:latest
-    ports:
-      - "3000:3000"
